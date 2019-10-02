@@ -1,7 +1,7 @@
 # whitebox
 home for the project dedicated to providing insights into black box model explanation, interpretation, and degradation
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "White Box Logo")
+![white_box_logo](https://raw.githubusercontent.com/zbloss/whitebox/master/img/box.png "White Box Logo")
 
 <hr>
 
