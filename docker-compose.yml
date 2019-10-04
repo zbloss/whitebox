@@ -1,0 +1,12 @@
+version: '3'
+services:
+  notebook:
+    container_name: whitebox
+    labels:
+      description: Whitebox container using Jupyter Notebooks
+      name: whitebox jupyter notebook 
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/home
+    build: . 

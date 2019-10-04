@@ -8,7 +8,7 @@ tqdm
 matplotlib
 seaborn
 plotly
-lime
+lime==0.1.1.34
 shap
 eli5
 yellowbrick
