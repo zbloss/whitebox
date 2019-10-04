@@ -2,14 +2,12 @@
 
 <table>
     <tr>
-        <th><img src="https://raw.githubusercontent.com/zbloss/whitebox/master/img/box.png" style='width:75px; padding-top: 10px'></th>
+        <th><img src="https://raw.githubusercontent.com/zbloss/whitebox/master/img/box.png" style='width: 75px; height: 75px'></th>
         <th><h1>WhiteBox</h1></th>
     </tr>
 </table>
 
 <h2>home for the project dedicated to providing insights into black box model explanation, interpretation, and degradation</h2>
-
-![white_box_logo](https://raw.githubusercontent.com/zbloss/whitebox/master/img/box.png "White Box Logo")
 
 <hr>
 
