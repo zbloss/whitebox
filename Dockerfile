@@ -33,4 +33,4 @@ RUN pip3 install torch===1.2.0 torchvision===0.4.0 -f https://download.pytorch.o
 #RUN update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
 #RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.5 2
 
-CMD jupyter notebook --no-browser --ip 0.0.0.0 --port 8888 --allow-root /
+CMD jupyter notebook --notebook-dir home --no-browser --ip 0.0.0.0 --port 8888 --allow-root /
