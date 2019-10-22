@@ -22,6 +22,7 @@ RUN dpkg-reconfigure locales && \
 
 ENV LC_ALL C.UTF-8
 
+RUN pip install --upgrade pip
 RUN pip3 install -r requirements.txt
 RUN pip3 install torch===1.2.0 torchvision===0.4.0 -f https://download.pytorch.org/whl/torch_stable.html
 
