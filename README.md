@@ -63,6 +63,8 @@ I love this visual for classification tasks. This shows you which features your 
 1. Build out more visuals for regression tasks.
 2. Abstract these visuals into python classes.
 3. Build Dash Web app.
+   1. Going to begin by using a MVP Flask app.
+   2. I may need to transition to a Django app for production.
 
 
 ## Credits
