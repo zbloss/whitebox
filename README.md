@@ -33,6 +33,37 @@ you should consider retraining your model.
 3. Run `docker-compose up`
    1. This will create the docker container and launch the jupyter notebook instance to develop on.
 
+## What's Inside?
+Currently, I have built out support for numerous interactive visuals all builton https://plot.ly. Some of the visuals can be found below. Most of the visuals you see are representing an XGBoost Classifier trained on the traditional Titanic Data set. If you're not familiar with this data set, it is essentially using Titanic passenger information to predit whether they survived the Titanic or not. [0 = not_survived, 1 = survived]
+
+
+#### Local Feature Importance
+![local-feature_importance](https://raw.githubusercontent.com/zbloss/whitebox/master/img/local_feature_importance.png)
+
+Here is an example of one particular data point from the data set. This shows how important each feature was in this isolated predicted as well as which direction the feature pulled the prediction. Red bars show the feature pulling the prediction closer to zero, and blue bars show the feature pulling the prediction closer to 1
+
+#### Classification Report
+![classification-report](https://raw.githubusercontent.com/zbloss/whitebox/master/img/classification_report.png)
+
+I've also built out support for more traditional visuals like the confusion matrix and classification report. Keep in mind, all of these visuals are interactive, so you will see the values on hovering your mouse over each data point. Though we also have the option to annotate these values as well.
+
+#### Radial Visual
+![radial-visual](https://raw.githubusercontent.com/zbloss/whitebox/master/img/radviz.png)
+
+I love this visual for classification tasks. This shows you which features your data tended towards relative to each class.
+
+#### Principal Component Analysis
+
+![pca-2d](https://raw.githubusercontent.com/zbloss/whitebox/master/img/pca2d.png)
+ I've added support for both 2D PCA and 3D PCA
+
+![pca-3d](https://raw.githubusercontent.com/zbloss/whitebox/master/img/pca3d.png)
+
+## TODO:
+1. Build out more visuals for regression tasks.
+2. Abstract these visuals into python classes.
+3. Build Dash Web app.
+
 
 ## Credits
 Icon made by [Elias Bikbulatov]("https://www.flaticon.com/authors/elias-bikbulatov") from www.flaticon.com
