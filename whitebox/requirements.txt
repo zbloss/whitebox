@@ -16,4 +16,5 @@ requests
 flask
 dash>=1.4.1
 dash-daq>=0.2.1
-
+torch 
+torchvision
