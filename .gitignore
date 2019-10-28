@@ -175,3 +175,6 @@ fabric.properties
 
 # titanic dataset
 titanic_data/
+
+# secret key
+app/app/secret_key.txt

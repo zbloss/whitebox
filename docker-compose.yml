@@ -1,25 +1,27 @@
 version: '3'
 services:
   
-  notebook:
-    container_name: notebook
-    labels:
-      description: Whitebox container using Jupyter Notebooks
-      name: whitebox jupyter notebook 
-    ports:
-      - "8888:8888"
-    volumes:
-      - .:/home
-    build: './notebooks'
+  #notebook:
+  #  container_name: notebook
+  #  labels:
+  #    description: Whitebox container using Jupyter Notebooks
+    #   name: whitebox jupyter notebook 
+    # ports:
+    #   - "8888:8888"
+    # volumes:
+    #   - .:/home
+    # build: './notebooks'
 
-  whitebox:
-    container_name: whitebox
+  django:
+    container_name: django
     labels:
       description: The Dash server
       name: whitebox dash
-    ports:
-      - "8050:8050"
     volumes:
       - .:/home
-    build: './whitebox'
+    build: './app'
+    ports:
+      - "8000:8000"
+    #command: 
+    #  python3 manage.py runserver 0.0.0.0:8000
 
