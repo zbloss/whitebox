@@ -13,7 +13,7 @@
 
 ## Demo
 
-![0.0.1 Demo](https://youtu.be/iZKhYOERW5A)
+[0.0.1 Demo](https://youtu.be/iZKhYOERW5A)
 
 ## Description
 This is currently a work in progress project aimed at solving the need for model interpretation, explanation, and degradation.
