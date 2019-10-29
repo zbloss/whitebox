@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load plotly_dash %}
+
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-sm-6">
+                <h4>Hey</h4>
+            </div>
+            <div class="col-sm-6">
+                <h4>There</h4>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                {% plotly_app name="classificationreport" %}
+            </div>
+        
+        </div>
+    
+    </div>
+
+{% endblock content %}
