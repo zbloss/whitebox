@@ -331,7 +331,9 @@ class CustomVisuals(object):
         model.fit(X)
         features = model.transform(X) 
         
-        fig = go.Figure()
+        layout = go.Layout(height=1500)
+
+        fig = go.Figure(layout=layout)
         
         for class_ in range(len(self.classes)):
             temp_x, temp_y, temp_z = features[y == class_].T

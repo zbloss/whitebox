@@ -11,6 +11,10 @@
 
 <hr>
 
+## Demo
+
+![0.0.1 Demo](https://youtu.be/iZKhYOERW5A)
+
 ## Description
 This is currently a work in progress project aimed at solving the need for model interpretation, explanation, and degradation.
 I've noticed this to be a pain point in my professional work as well as many others. This project serves as a solution.

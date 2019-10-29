@@ -20,16 +20,34 @@ X_test = np.load('../models/X_test.npy')
 y_train = np.load('../models/y_train.npy')
 y_test = np.load('../models/y_test.npy')
 
+X = np.concatenate([X_train, X_test])
+y = np.concatenate([y_train, y_test])
+
 cv = CustomVisuals(model=model, feature_names=feature_names, classes=classes)
 
-dash_name = 'classification_report'
-app_name = 'whitebox'
-
-app = DjangoDash(name=dash_name, app_name=app_name)
-app.layout = html.Div([
+cr_dash_name = 'classification_report'
+cr_app = DjangoDash(name=cr_dash_name)
+cr_app.layout = html.Div([
     dcc.Graph(
         id = 'classification_report',
        figure =  cv.generate_classification_report(X_test, y_test)
     )
 ])
 
+cm_dash_name = 'confusion_matrix'
+cm_app = DjangoDash(name=cm_dash_name)
+cm_app.layout = html.Div([
+    dcc.Graph(
+        id = cm_dash_name,
+       figure =  cv.generate_confusion_matrix(X_test, y_test)
+    )
+])
+
+pca3d_dash_name = 'pca3d'
+pca3d_app = DjangoDash(name=pca3d_dash_name)
+pca3d_app.layout = html.Div([
+    dcc.Graph(
+        id = pca3d_dash_name,
+       figure =  cv.generate_pca_3d(X, y), className='embed-responsive'
+    )
+])

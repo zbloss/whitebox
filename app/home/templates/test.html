@@ -4,13 +4,44 @@
 {% block content %}
 {% load plotly_dash %}
     <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="au-card recent-report">
+                    <div class="au-card-inner">
+                        <h3 class="title-2">Titanic Data Classification</h3>
+                        <p>Here we have a demo of an XGBoost Classification Model trained to predict whether someone survived the Titanic.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-sm-12 col-md-6">
-            
                 <div class="au-card recent-report">
                     <div class="au-card-inner">
                         <h3 class="title-2">Classification Report</h3>
-                            {% plotly_app name="classification_report" ratio=1 %}
+                        {% plotly_app name="classification_report" ratio=1 %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6">
+                <div class="au-card recent-report">
+                    <div class="au-card-inner">
+                        <h3 class="title-2">Confusion Matrix</h3>
+                        {% plotly_app name="confusion_matrix" ratio=1 %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="au-card recent-report">
+                    <div class="au-card-inner">
+                        <h3 class="title-2">3D-Principal Component Analysis</h3>
+                        {% plotly_app name="pca3d" ratio=2 %}
                     </div>
                 </div>
             </div>
