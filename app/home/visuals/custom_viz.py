@@ -11,6 +11,7 @@ from yellowbrick.classifier import ROCAUC
 
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler, StandardScaler
 from sklearn.decomposition import PCA
+from sklearn.metrics import classification_report, confusion_matrix
 
 
 class CustomVisuals(object):
@@ -22,8 +23,7 @@ class CustomVisuals(object):
         
 
     def generate_classification_report(self, X_test, y_test, 
-                                       zmin=0, zmax=1, annot=False, 
-                                       **kwargs):
+                                       zmin=0, zmax=1, annot=False, **kwargs):
         """
         Given the test data sets, produces a classification report and returns a plotly
         Heatmap figure.
@@ -33,7 +33,7 @@ class CustomVisuals(object):
         :param zmin: (optional) sets scale minimum. Defaults to 0.
         :param zmax: (optional) sets scale maxmimum. Defaults to 1.
         """
-        cr = classification_report(y_test, self.model.predict(X_test), output_dict=True)
+        cr = classification_report(y_true = y_test, y_pred = self.model.predict(X_test), output_dict=True)
         cr = pd.DataFrame(cr)
         
         fig_x = self.classes + ['accuracy', 'macro avg', 'weighted avg']

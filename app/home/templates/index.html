@@ -13,7 +13,7 @@
     <title>Dashboard</title>
 
     {% load static %}
-
+    {% load plotly_dash %}
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
 
     <!-- Fontfaces CSS-->
@@ -444,6 +444,8 @@
 
             <!-- MAIN CONTENT-->
             <div class="main-content">
+            <!-- embed-responsive -->
+
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="row">
@@ -543,7 +545,7 @@
                                                 <div class="chart-note mr-0">
                                                     <span class="dot dot--green"></span>
                                                     <span>services</span>
-                                                </div>
+                                                </div> 
                                             </div>
                                             <div class="chart-info__right">
                                                 <div class="chart-statis">

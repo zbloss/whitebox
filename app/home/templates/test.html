@@ -2,25 +2,21 @@
 {% load plotly_dash %}
 
 {% block content %}
-
+{% load plotly_dash %}
     <div class="container-fluid">
         <div class="row">
-
-            <div class="col-sm-6">
-                <h4>Hey</h4>
+            <div class="col-sm-12 col-md-6">
+            
+                <div class="au-card recent-report">
+                    <div class="au-card-inner">
+                        <h3 class="title-2">Classification Report</h3>
+                            {% plotly_app name="classification_report" ratio=1 %}
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-6">
-                <h4>There</h4>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                {% plotly_app name="classificationreport" %}
-            </div>
-        
         </div>
     
-    </div>
+        </div>
+
 
 {% endblock content %}
