@@ -51,3 +51,50 @@ pca3d_app.layout = html.Div([
        figure =  cv.generate_pca_3d(X, y), className='embed-responsive'
     )
 ])
+
+pca2d_dash_name = 'pca2d'
+pca2d_app = DjangoDash(name=pca2d_dash_name)
+pca2d_app.layout = html.Div([
+    dcc.Graph(
+        id = pca2d_dash_name,
+       figure =  cv.generate_pca_2d(X, y), className='embed-responsive'
+    )
+])
+
+rank2d_dash_name = 'rank2d'
+rank2d_app = DjangoDash(name=rank2d_dash_name)
+rank2d_app.layout = html.Div([
+    dcc.Graph(
+        id = rank2d_dash_name,
+       figure =  cv.generate_rank_2d(X), className='embed-responsive'
+    )
+])
+
+rank1d_dash_name = 'rank1d'
+rank1d_app = DjangoDash(name=rank1d_dash_name)
+rank1d_app.layout = html.Div([
+    dcc.Graph(
+        id = rank1d_dash_name,
+       figure =  cv.generate_rank_1d(X, y), className='embed-responsive'
+    )
+])
+
+radviz_dash_name = 'radviz'
+radviz_app = DjangoDash(name=radviz_dash_name)
+radviz_app.layout = html.Div([
+    dcc.Graph(
+        id = radviz_dash_name,
+       figure =  cv.generate_rad_viz(X, y), className='embed-responsive'
+    )
+])
+
+rocauc_dash_name = 'rocauc'
+rocauc_app = DjangoDash(name=rocauc_dash_name)
+rocauc_app.layout = html.Div([
+    dcc.Graph(
+        id = radviz_dash_name,
+        figure =  cv.generate_roc_auc(X_train, y_train,
+                                     X_test, y_test), 
+        className='embed-responsive'
+    )
+])

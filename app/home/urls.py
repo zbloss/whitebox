@@ -7,7 +7,7 @@ import home.dash_apps
 
 urlpatterns = [
     path('', views.home, name='homepage'),
-    path('test/', views.test, name='test'),
+    path('analysis/', views.analysis, name='analysis'),
     path('new_test/', TemplateView.as_view(template_name='test.html'), name="demo-one"),
     path('plain/', TemplateView.as_view(template_name='plain.html'), name='plain_test'),
 

@@ -97,7 +97,6 @@ class CustomVisuals(object):
         return fig
     
     
-
     def generate_rank_2d(self, X, algorithm='pearson', **kwargs):
         """
         Given the entire (train+test) input features, returns a plotly
@@ -110,7 +109,10 @@ class CustomVisuals(object):
         
         visualizer = Rank2D(algorithm=algorithm)
         visualizer.fit_transform(X)
-        
+
+        # values
+        ranks_ = visualizer.ranks_
+
         #grabbing feature shape
         feats = ranks_.shape[0]
         
@@ -121,10 +123,9 @@ class CustomVisuals(object):
         fig = go.Figure(
             go.Heatmap(
                 z = ranks_,
-                x = visualizer.features_,
-                y = np.flip(visualizer.features_), 
+                x = self.feature_names,
+                y = np.flip(self.feature_names),
                 **kwargs
-                
             )
         )
         
@@ -148,7 +149,7 @@ class CustomVisuals(object):
         fig = go.Figure(
             go.Bar(
                 x = visualizer.ranks_,
-                y = visualizer.features_,
+                y = self.feature_names,  #visualizer.features_,
                 orientation='h'
             )
         )
@@ -166,7 +167,7 @@ class CustomVisuals(object):
         
         # grabbing rows, columns, to later build out the radviz data set
         nrows, ncols = X.shape
-        to_plot = {label: [[], []] for label in yb.classes}
+        to_plot = {label: [[], []] for label in self.classes}
         
         # locations of where to plot the feature names.
         class_points = np.array(
@@ -183,8 +184,7 @@ class CustomVisuals(object):
         for i, row in enumerate(X_scaled):
             row_ = np.repeat(np.expand_dims(row, axis=1), 2, axis=1)
             xy = (class_points * row_).sum(axis=0) / row.sum()
-            #label = self.classes[j] for j in y
-            label = self.classes[y.values[i]]
+            label = self.classes[y[i]]
             #label = 'not_survived' if y.values[i] == 0 else 'survived'  #self._label_encoder[y[i]]
             to_plot[label][0].append(xy[0])
             to_plot[label][1].append(xy[1])
@@ -259,7 +259,7 @@ class CustomVisuals(object):
             trace = go.Scatter(
                 x = [i / len(roc_data[tr]) for i in range(len(roc_data[tr]))],
                 y = roc_data[tr],
-                name = f'{tr}' if type(tr) != int else f'{yb.classes[tr]}',
+                name = f'{tr}' if type(tr) != int else f'{self.classes[tr]}',
                 line = dict(shape = 'hv')
             )
             fig.add_trace(trace)
@@ -331,7 +331,7 @@ class CustomVisuals(object):
         model.fit(X)
         features = model.transform(X) 
         
-        layout = go.Layout(height=1500)
+        layout = go.Layout(height=600)
 
         fig = go.Figure(layout=layout)
         
