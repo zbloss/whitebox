@@ -13,13 +13,19 @@ from sklearn.preprocessing import LabelEncoder, MinMaxScaler, StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.metrics import classification_report, confusion_matrix
 
+import lime
 
 class CustomVisuals(object):
     
-    def __init__(self, model, feature_names, classes):
+    def __init__(self, model, feature_names, classes, training_data):
         self.model = model
         self.feature_names = feature_names
         self.classes = classes
+        self.training_data = training_data
+        self.explainer = lime.lime_tabular.LimeTabularExplainer(training_data=training_data, 
+                                                                mode='classification',  
+                                                                feature_names=self.feature_names, 
+                                                                class_names=self.classes)
         
 
     def generate_classification_report(self, X_test, y_test, 
@@ -350,3 +356,98 @@ class CustomVisuals(object):
             
         
         return fig
+
+    def generate_probability_chart(self, data):
+        """
+        Generates a bar chart showing the probability of each class
+        
+        :param data: array of data, usually from X_test.
+        """
+        # convert passed predictions to numpy array
+        xdata = np.array(data)
+
+        # grabs the number of classes
+        if len(xdata.shape) < 2:  # fix for instance where a single list is passed
+            xdata = xdata.reshape(1, -1)
+
+        pred = self.model.predict_proba(xdata)
+        
+        num_classes = pred.shape[1]
+        npred = pred.reshape(num_classes,)
+
+        layout = go.Layout(title='Class Probabilities')
+        fig_ = go.Figure(layout=layout)
+
+        for c in range(num_classes):
+            if {self.classes[c]}:
+                fig_.add_trace(go.Bar(
+                    x = [f'{self.classes[c]}'],
+                    y = [npred[c]],
+                    name=f'{self.classes[c]}', 
+                ))
+            else:
+                fig_.add_trace(go.Bar(
+                    x = [f'class_{c}'],
+                    y = [npred[c]],
+                    name=f'class_{c}', 
+                ))
+                
+        return fig_
+
+    
+    def local_feature_importance(self, data):
+        """
+        Given a row of data to be evaluate and a model to do the evaluation with, 
+        returns a plot showing the local feature importance of each feature
+
+        :param data: array of data, usually from X_test.
+        """
+        xdata = np.array(data)
+        num_features = xdata.shape[0]
+
+        exp = self.explainer.explain_instance(xdata, self.model.predict_proba, num_features=num_features)
+        new_exp = dict(exp.local_exp[1])
+
+        p2g = {}
+
+        for k in new_exp.keys():
+            p2g[self.feature_names[k]] = new_exp[k]
+            
+        colors = ['rgb(255,92,92)' if val < 0 else 'rgb(92,92,255)' for val in p2g.values()]
+
+        viz = go.Bar(
+            x = list(p2g.values()),
+            y = list(p2g.keys()),
+            name='feature values', 
+            orientation='h',
+            marker=dict(color=colors)
+        )
+
+        layout = go.Layout(title='Feature Importance')
+        fig = go.Figure([viz], layout)
+
+        return fig
+
+
+    def feature_values(self, data):
+        """
+        Given a row of data to be evaluate and a model to do the evaluation with, 
+        returns a plot showing the feature values
+
+        :param data: array of data, usually from X_test.
+        """
+        xdata = np.array(data)
+        num_features = len(xdata)
+
+        exp = explainer.explain_instance(xdata, self.model.predict_proba, num_features=num_features)
+
+        feature_names = exp.domain_mapper.feature_names
+        feature_values = exp.domain_mapper.feature_values
+
+        table = go.Figure(
+            go.Table(
+                header=dict(values=['Feature', 'Value']),
+                cells=dict(values=[feature_names, feature_values])
+            )
+        )
+        return table
