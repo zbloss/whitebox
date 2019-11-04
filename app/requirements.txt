@@ -6,4 +6,7 @@ dpd_static_support
 yellowbrick
 sklearn
 xgboost
-lime==0.1.1.34
+requests
+pandas
+numpy
+lime

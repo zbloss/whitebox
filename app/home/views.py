@@ -13,3 +13,6 @@ def home(request):
 
 def analysis(request):
     return render(request, 'analysis.html')
+
+def explainer(request):
+    return render(request, 'explainer.html')

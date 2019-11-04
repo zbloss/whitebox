@@ -14,6 +14,9 @@ from sklearn.decomposition import PCA
 from sklearn.metrics import classification_report, confusion_matrix
 
 import lime
+import lime.lime_tabular
+from lime.lime_tabular import LimeTabularExplainer
+
 
 class CustomVisuals(object):
     
@@ -22,11 +25,13 @@ class CustomVisuals(object):
         self.feature_names = feature_names
         self.classes = classes
         self.training_data = training_data
-        self.explainer = lime.lime_tabular.LimeTabularExplainer(training_data=training_data, 
-                                                                mode='classification',  
-                                                                feature_names=self.feature_names, 
-                                                                class_names=self.classes)
         
+        self.explainer = LimeTabularExplainer(training_data=training_data, 
+                                              mode='classification',  
+                                              feature_names=self.feature_names, 
+                                              class_names=self.classes)
+        
+
 
     def generate_classification_report(self, X_test, y_test, 
                                        zmin=0, zmax=1, annot=False, **kwargs):
@@ -375,7 +380,7 @@ class CustomVisuals(object):
         num_classes = pred.shape[1]
         npred = pred.reshape(num_classes,)
 
-        layout = go.Layout(title='Class Probabilities')
+        layout = go.Layout()  #title='Class Probabilities')
         fig_ = go.Figure(layout=layout)
 
         for c in range(num_classes):
@@ -423,7 +428,7 @@ class CustomVisuals(object):
             marker=dict(color=colors)
         )
 
-        layout = go.Layout(title='Feature Importance')
+        layout = go.Layout()  #title='Feature Importance')
         fig = go.Figure([viz], layout)
 
         return fig
@@ -439,7 +444,7 @@ class CustomVisuals(object):
         xdata = np.array(data)
         num_features = len(xdata)
 
-        exp = explainer.explain_instance(xdata, self.model.predict_proba, num_features=num_features)
+        exp = self.explainer.explain_instance(xdata, self.model.predict_proba, num_features=num_features)
 
         feature_names = exp.domain_mapper.feature_names
         feature_values = exp.domain_mapper.feature_values
