@@ -9,4 +9,4 @@ xgboost
 requests
 pandas
 numpy
-lime
+lime==0.1.1.36
