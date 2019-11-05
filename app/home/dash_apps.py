@@ -28,7 +28,7 @@ y = np.concatenate([y_train, y_test])
 
 Xdf = pd.DataFrame(X, columns=feature_names)
 ydf = pd.DataFrame(y, columns=['survived'])
-data = pd.concat([Xdf, ydf], axis=1)
+datadf = pd.concat([Xdf, ydf], axis=1)
 
 
 cv = CustomVisuals(model=model, feature_names=feature_names, classes=classes, training_data=X_train)
@@ -143,11 +143,11 @@ data_table_app.layout = html.Div([
     dash_table.DataTable(
         id=data_table_dash_name,  #'datatable-row-ids',
         columns=[
-            {'name': i, 'id': i, 'deletable': True} for i in data.columns
+            {'name': i, 'id': i, 'deletable': True} for i in datadf.columns
             # omit the id column
             if i != 'id'
         ],
-        data=data.to_dict('records'),
+        data=datadf.to_dict('records'),
         editable=True,
         filter_action="native",
         sort_action="native",
@@ -158,6 +158,7 @@ data_table_app.layout = html.Div([
         page_action='native',
         page_current= 0,
         page_size= 10,
+        virtualization=True
     ),
     html.Div(id='data_table-container')
 ])
@@ -181,11 +182,11 @@ def update_graphs(row_ids, selected_row_ids, active_cell):
     selected_id_set = set(selected_row_ids or [])
 
     if row_ids is None:
-        dff = data
+        dff = datadf
         # pandas Series works enough like a list for this to be OK
         row_ids = data['id']
     else:
-        dff = data.loc[row_ids]
+        dff = datadf.loc[row_ids]
 
     active_row_id = active_cell['row_id'] if active_cell else None
 

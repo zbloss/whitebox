@@ -52,7 +52,7 @@ class CustomVisuals(object):
         z_text = cr.values
         
         fig = go.Figure(
-            go.Heatmap(
+            [go.Heatmap(
                 z = cr.values,
                 x = fig_x,
                 y = fig_y,
@@ -60,7 +60,7 @@ class CustomVisuals(object):
                 zmax = zmax if zmax is not None else zmax,
                 text = None if annot == False else z_text,
                 **kwargs
-            )
+            )]
         )
         return fig
 
@@ -87,14 +87,14 @@ class CustomVisuals(object):
                 hovertext[-1].append(f'Predicted: {xx}<br />Actual: {yy}<br />Count: {fig_z[yi][xi]}')
       
         fig = go.Figure(
-            go.Heatmap(
+            [go.Heatmap(
                 z = fig_z, 
                 x = fig_x,
                 y = fig_y,
                 hoverinfo='text',
                 text=hovertext,
                 **kwargs
-            ),
+            )],
             go.Layout(
                 xaxis=go.layout.XAxis(
                     title=go.layout.xaxis.Title(text='Predicted', font=dict(size=24))
@@ -132,12 +132,12 @@ class CustomVisuals(object):
         ranks_[iu] = 0
         
         fig = go.Figure(
-            go.Heatmap(
+            [go.Heatmap(
                 z = ranks_,
                 x = self.feature_names,
                 y = np.flip(self.feature_names),
                 **kwargs
-            )
+            )]
         )
         
         return fig
@@ -158,11 +158,11 @@ class CustomVisuals(object):
         visualizer.transform(X)        # Transform the data
         
         fig = go.Figure(
-            go.Bar(
+            [go.Bar(
                 x = visualizer.ranks_,
                 y = self.feature_names,  #visualizer.features_,
                 orientation='h'
-            )
+            )]
         )
         return fig
         
@@ -450,9 +450,9 @@ class CustomVisuals(object):
         feature_values = exp.domain_mapper.feature_values
 
         table = go.Figure(
-            go.Table(
+            [go.Table(
                 header=dict(values=['Feature', 'Value']),
                 cells=dict(values=[feature_names, feature_values])
-            )
+            )]
         )
         return table
