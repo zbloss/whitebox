@@ -12,16 +12,16 @@ from django_plotly_dash import DjangoDash
 
 # Loading model attributes
 print('Loading model...')
-model = pickle.load(open('../models/model.pkl', 'rb'))
+model = pickle.load(open('/code/models/model.pkl', 'rb'))
 feature_names = ['Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare', 'Embarked', 'Cabin_Class']
 classes = ['not_survived', 'survived']
 
 # Loading train_test data
 print('Loading data...')
-X_train = np.load('../models/X_train.npy')
-X_test = np.load('../models/X_test.npy')
-y_train = np.load('../models/y_train.npy')
-y_test = np.load('../models/y_test.npy')
+X_train = np.load('/code/models/X_train.npy')
+X_test = np.load('/code/models/X_test.npy')
+y_train = np.load('/code/models/y_train.npy')
+y_test = np.load('/code/models/y_test.npy')
 
 X = np.concatenate([X_train, X_test])
 y = np.concatenate([y_train, y_test])
