@@ -12,16 +12,16 @@ from django_plotly_dash import DjangoDash
 
 # Loading model attributes
 print('Loading model...')
-model = pickle.load(open('/code/models/model.pkl', 'rb'))
+model = pickle.load(open('../models/model.pkl', 'rb'))
 feature_names = ['Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare', 'Embarked', 'Cabin_Class']
 classes = ['not_survived', 'survived']
 
 # Loading train_test data
 print('Loading data...')
-X_train = np.load('/code/models/X_train.npy')
-X_test = np.load('/code/models/X_test.npy')
-y_train = np.load('/code/models/y_train.npy')
-y_test = np.load('/code/models/y_test.npy')
+X_train = np.load('../models/X_train.npy')
+X_test = np.load('../models/X_test.npy')
+y_train = np.load('../models/y_train.npy')
+y_test = np.load('../models/y_test.npy')
 
 X = np.concatenate([X_train, X_test])
 y = np.concatenate([y_train, y_test])
@@ -170,111 +170,27 @@ def filter_data(selected_row_indices):
 
 @data_table_app.callback(
     dash.dependencies.Output('data_table-container', 'children'),
-    [dash.dependencies.Input('data_table', 'selected_rows')])  #selected_row_indices')])
+    [dash.dependencies.Input('data_table', 'selected_rows')])
 def update_download_link(selected_row_indices):
     dff = filter_data(selected_row_indices)
-    return [
-        dcc.Graph(
-            id = featv_dash_name,
-            figure =  cv.feature_values(dff[feature_names].values[0]), 
-            className='embed-responsive'
-        ),
-        dcc.Graph(
-            id = prob_dash_name,
-            figure =  cv.generate_probability_chart(dff[feature_names].values[0]), 
-            className='embed-responsive'
-        ),
-        dcc.Graph(
-            id = feati_dash_name,
-            figure =  cv.local_feature_importance(data=dff[feature_names].values[0]), 
-            className='embed-responsive'
-        )
-    ]
-    #csv_string = dff.to_csv(index=False, encoding='utf-8')
-    #csv_string = "data:text/csv;charset=utf-8," + urllib.parse.quote(csv_string)
-    #return csv_string
+    return html.Div([
+        html.Div([
+        
+            html.Div([
+                dcc.Graph(
+                    id = prob_dash_name,
+                    figure =  cv.generate_probability_chart(dff[feature_names].values[0]), 
+                    className='embed-responsive'
+                ),
+            ], className='col-sm-12 col-md-6'),
+            html.Div([
+                dcc.Graph(
+                    id = feati_dash_name,
+                    figure =  cv.local_feature_importance(data=dff[feature_names].values[0]), 
+                    className='embed-responsive'
+                )
+            ], className='col-sm-12 col-md-6')
+            
+        ], className='row')
+    ], className='container-fluid')
 
-
-
-# @data_table_app.callback(
-#     Output('data_table-container', 'children'),
-#     '''
-#     [Input('data_table', 'derived_virtual_row_ids'),
-#      Input('data_table', 'selected_row_ids'),
-#      Input('data_table', 'active_cell')
-#      ])
-#     '''
-#     [Input('data_table', 'rows'),
-#      Input('data_table', 'selected_row_indices')])
-
-# def update_graphs(rows, selected_row_indices):  #, active_cell):
-#     # When the table is first rendered, `derived_virtual_data` and
-#     # `derived_virtual_selected_rows` will be `None`. This is due to an
-#     # idiosyncracy in Dash (unsupplied properties are always None and Dash
-#     # calls the dependent callbacks when the component is first rendered).
-#     # So, if `rows` is `None`, then the component was just rendered
-#     # and its value will be the same as the component's dataframe.
-#     # Instead of setting `None` in here, you could also set
-#     # `derived_virtual_data=df.to_rows('dict')` when you initialize
-#     # the component.
-#     #selected_id_set = set(selected_row_ids or [])
-#     print('\n\n\n')
-#     t = datadf.to_dict('rows')
-#     print(f'datadf: {t}\n\n\n')
-
-#     print(f'rows: {rows}\n\n\n')
-#     print(f'selected_row_indices: {selected_row_indices}\n\n\n')
-
-#     selected_rows = [rows[i] for i in selected_row_indices]
-
-#     print(f'selected_rows: {selected_rows}\n\n\n')
-
-#     if row_ids is None:
-#         dff = datadf
-#         # pandas Series works enough like a list for this to be OK
-#         row_ids = datadf['row_id']
-#     else:
-#         dff = datadf.loc[row_ids]
-
-#     '''
-#     active_row_id = active_cell['row_id'] if active_cell else None
-
-#     colors = ['#FF69B4' if id == active_row_id
-#               else '#7FDBFF' if id in selected_id_set
-#               else '#0074D9'
-#               for id in row_ids]
-    
-
-#     print(f'selected_row_ids: {selected_row_ids}\n\n\n')
-#     print(f'selected_id_set: {selected_id_set}\n\n\n')
-#     print(f'active_row_id: {active_row_id}\n\n\n')
-#     '''
-
-#     return [
-#         dcc.Graph(
-#             id=column + '--row-ids',
-#             figure={
-#                 'data': [
-#                     {
-#                         'x': dff['country'],
-#                         'y': dff[column],
-#                         'type': 'bar',
-#                         'marker': {'color': colors},
-#                     }
-#                 ],
-#                 'layout': {
-#                     'xaxis': {'automargin': True},
-#                     'yaxis': {
-#                         'automargin': True,
-#                         'title': {'text': column}
-#                     },
-#                     'height': 250,
-#                     'margin': {'t': 10, 'l': 10, 'r': 10},
-#                 },
-#             },
-#         )
-#         # check if column exists - user may have deleted it
-#         # If `column.deletable=False`, then you don't
-#         # need to do this check.
-#         for column in ['pop', 'lifeExp', 'gdpPercap'] if column in dff
-#     ]

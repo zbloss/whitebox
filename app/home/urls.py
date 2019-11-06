@@ -8,8 +8,7 @@ import home.dash_apps
 urlpatterns = [
     path('', views.home, name='homepage'),
     path('analysis/', views.analysis, name='analysis'),
-    path('explainer/', views.explainer, name='explainer'),
-    path('new_test/', TemplateView.as_view(template_name='test.html'), name="demo-one"),
-    path('plain/', TemplateView.as_view(template_name='plain.html'), name='plain_test'),
+    path('explain/', views.explain, name='explain'),
+    
     path('django_plotly_dash/', include('django_plotly_dash.urls')),
 ]

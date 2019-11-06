@@ -9,10 +9,10 @@ def index(request):
     return HttpResponse("Hello, world. You're at the index.")
 
 def home(request):
-    return render(request, 'index.html')
+    return render(request, 'home.html')
 
 def analysis(request):
     return render(request, 'analysis.html')
 
-def explainer(request):
-    return render(request, 'explainer.html')
+def explain(request):
+    return render(request, 'explain.html')

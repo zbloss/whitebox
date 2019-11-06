@@ -418,7 +418,7 @@ class CustomVisuals(object):
         for k in new_exp.keys():
             p2g[self.feature_names[k]] = new_exp[k]
             
-        colors = ['rgb(255,92,92)' if val < 0 else 'rgb(92,92,255)' for val in p2g.values()]
+        colors = ['rgb(92,92,255)' if val < 0 else 'rgb(255,92,92)' for val in p2g.values()]
 
         viz = go.Bar(
             x = list(p2g.values()),

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load plotly_dash %}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="au-card recent-report">
+                <div class="au-card-inner">
+                    <h3 class="title-2">Titanic Data Classification</h3>
+                    <p>Here we have a demo of an XGBoost Classification Model trained to predict whether someone survived the Titanic.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="au-card recent-report">
+                <div class="au-card-inner">
+                    <h3 class="title-2">Feature Importance</h3>
+                    {% plotly_app name="feature_imp" ratio=1 %}
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-sm-12 col-md-6">
+            <div class="au-card recent-report">
+                <div class="au-card-inner">
+                    <h3 class="title-2">Table</h3>
+                    {% plotly_app name="data_table" ratio=1 %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="au-card recent-report">
+                <div class="au-card-inner">
+                    <h3 class="title-2">Feature Importance</h3>
+                    {% plotly_app name="feature_imp" ratio=1 %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock content %}
