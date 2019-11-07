@@ -456,3 +456,11 @@ class CustomVisuals(object):
             )]
         )
         return table
+
+    def box_plot(self, data):
+        """
+        Given a column of data, returns a box plot
+
+        :param data: array of data.
+        """
+        return None

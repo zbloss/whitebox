@@ -16,3 +16,6 @@ def analysis(request):
 
 def explain(request):
     return render(request, 'explain.html')
+
+def data(request):
+    return render(request, 'data.html')

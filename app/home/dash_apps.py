@@ -116,6 +116,7 @@ prob_app.layout = html.Div([
     )
 ])
 
+
 feati_dash_name = 'feature_imp'
 feati_app = DjangoDash(name=feati_dash_name)
 feati_app.layout = html.Div([
@@ -123,8 +124,9 @@ feati_app.layout = html.Div([
         id = feati_dash_name,
         figure =  cv.local_feature_importance(data=X_test[0]), 
         className='embed-responsive'
-    )
+    ),
 ])
+
 
 featv_dash_name = 'feature_val'
 featv_app = DjangoDash(name=featv_dash_name)
@@ -140,7 +142,7 @@ data_table_dash_name = 'data_table'
 data_table_app = DjangoDash(name=data_table_dash_name)
 data_table_app.layout = html.Div([
     dash_table.DataTable(
-        id=data_table_dash_name,  #'datatable-row-ids',
+        id=data_table_dash_name,
         columns=[
             {'name': i, 'id': i, 'deletable': True} for i in datadf.columns
             # omit the id column
@@ -157,7 +159,7 @@ data_table_app.layout = html.Div([
         page_action='native',
         page_current= 0,
         page_size= 10,
-        virtualization=True
+        virtualization=True,
     ),
     html.Div(id='data_table-container')
 ])
@@ -175,22 +177,25 @@ def update_download_link(selected_row_indices):
     dff = filter_data(selected_row_indices)
     return html.Div([
         html.Div([
-        
             html.Div([
+                html.H3('Model Probability', className='title-2'),
                 dcc.Graph(
                     id = prob_dash_name,
                     figure =  cv.generate_probability_chart(dff[feature_names].values[0]), 
                     className='embed-responsive'
                 ),
             ], className='col-sm-12 col-md-6'),
+            html.Br(),
             html.Div([
+                html.H3('Local Feature Importance', className='title-2'),
                 dcc.Graph(
-                    id = feati_dash_name,
-                    figure =  cv.local_feature_importance(data=dff[feature_names].values[0]), 
+                    id = 'feature_imp',
+                    figure = cv.local_feature_importance(data=dff[feature_names].values[0]), 
                     className='embed-responsive'
                 )
             ], className='col-sm-12 col-md-6')
             
         ], className='row')
     ], className='container-fluid')
+
 
