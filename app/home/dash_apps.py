@@ -172,7 +172,7 @@ def filter_data(selected_row_indices):
 
 @data_table_app.callback(
     dash.dependencies.Output('data_table-container', 'children'),
-    [dash.dependencies.Input('data_table', 'selected_rows')])
+    [dash.dependencies.Input(data_table_dash_name, 'selected_rows')])
 def update_download_link(selected_row_indices):
     dff = filter_data(selected_row_indices)
     return html.Div([
@@ -199,3 +199,51 @@ def update_download_link(selected_row_indices):
     ], className='container-fluid')
 
 
+
+
+box_plot_data_table_name = 'box_plot_data_table'
+box_plot_data_table_app = DjangoDash(name=box_plot_data_table_name)
+box_plot_data_table_app.layout = html.Div([
+    dash_table.DataTable(
+        id=box_plot_data_table_name,
+        columns=[
+            {'name': i, 'id': i, 'deletable': True} for i in datadf.columns
+            # omit the id column
+            if i != 'id'
+        ],
+        data = datadf.to_dict('records'),
+        editable=True,
+        filter_action="native",
+        sort_action="native",
+        sort_mode='multi',
+        row_selectable='single',
+        row_deletable=False,
+        selected_columns=[],
+        column_selectable='single',
+        page_action='native',
+        page_current= 0,
+        page_size= 10,
+        virtualization=True,
+    ),
+    html.Div(id='box_plot_data_table-container')
+])
+
+@box_plot_data_table_app.callback(
+    dash.dependencies.Output('box_plot_data_table-container', 'children'),
+    [dash.dependencies.Input(box_plot_data_table_name, 'active_cell')])
+def update_active_cell(active_cell):
+    # active_cell returns in form {'row': 6, 'column': 4, 'column_id': 'Parch'}
+    column_values = datadf[active_cell['column_id']]
+    point = datadf.iloc[active_cell['row'], active_cell['column']] 
+
+    print(active_cell)
+    print(datadf.iloc[active_cell['row'], active_cell['column']])
+    
+    return html.Div([
+        html.H3('Local Feature Importance', className='title-2'),
+        dcc.Graph(
+            id = box_plot_data_table_name,
+            figure = cv.box_plot(data=column_values, point=point), 
+            className='embed-responsive'
+        )
+    ], className='container-fluid')

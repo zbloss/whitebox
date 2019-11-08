@@ -457,10 +457,25 @@ class CustomVisuals(object):
         )
         return table
 
-    def box_plot(self, data):
+    def box_plot(self, data, point=None):
         """
-        Given a column of data, returns a box plot
+        Given a column of data, and a point to be analyzed, returns a box plot
 
-        :param data: array of data.
+        :param data: a pandas series.
+        :param point: a singular value residing on the same feature as data.
         """
-        return None
+        box_trace = go.Box(
+            x = data.values,
+            name = f'{data.name}'
+        )
+
+        point_trace = go.Box(
+            x = [point],
+            boxpoints='all',
+            name='Point',
+            pointpos = -2
+        )
+
+        fig = go.Figure([box_trace, point_trace])
+            
+        return fig
