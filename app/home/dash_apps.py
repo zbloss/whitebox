@@ -228,22 +228,37 @@ box_plot_data_table_app.layout = html.Div([
     html.Div(id='box_plot_data_table-container')
 ])
 
+def test(data):
+    return data
+
 @box_plot_data_table_app.callback(
     dash.dependencies.Output('box_plot_data_table-container', 'children'),
     [dash.dependencies.Input(box_plot_data_table_name, 'active_cell')])
 def update_active_cell(active_cell):
+    datadfx = test(datadf)
     # active_cell returns in form {'row': 6, 'column': 4, 'column_id': 'Parch'}
-    column_values = datadf[active_cell['column_id']]
-    point = datadf.iloc[active_cell['row'], active_cell['column']] 
-
-    print(active_cell)
-    print(datadf.iloc[active_cell['row'], active_cell['column']])
+    column_values = datadfx[active_cell['column_id']]
+    point = datadfx.iloc[active_cell['row'], active_cell['column']] 
     
-    return html.Div([
-        html.H3('Local Feature Importance', className='title-2'),
+    # fig = html.Div([
+    #     html.H3('Box Plot', className='title-2'),
+    #     dcc.Graph(
+    #         id = box_plot_data_table_name,
+    #         figure = cv.box_plot(data=column_values, point=point), 
+    #         className='embed-responsive'
+    #     )
+    # ], className='container-fluid')
+
+    fig = html.Div([
+        html.H3('Summary Statistics', className='title-2'),
         dcc.Graph(
-            id = box_plot_data_table_name,
-            figure = cv.box_plot(data=column_values, point=point), 
+            id='box_plot_data_table-container',
+            figure=cv.summary_statistics(data=pd.DataFrame(column_values, 
+                                         columns=[active_cell['column_id']]), 
+                                         point=point),
             className='embed-responsive'
         )
-    ], className='container-fluid')
+    ])
+
+    column_values, point = None, None
+    return fig

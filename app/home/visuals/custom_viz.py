@@ -457,6 +457,7 @@ class CustomVisuals(object):
         )
         return table
 
+
     def box_plot(self, data, point=None):
         """
         Given a column of data, and a point to be analyzed, returns a box plot
@@ -479,3 +480,33 @@ class CustomVisuals(object):
         fig = go.Figure([box_trace, point_trace])
             
         return fig
+
+
+    def summary_statistics(self, data, point=None):
+        """
+        Given a row of data to be evaluate and a model to do the evaluation with, 
+        returns a plot showing the summary statistics for that data
+
+        :param data: array of data
+        :param point: point to compare to the data.
+        """
+
+        print(type(data))
+        col = data.columns
+        xdata = data.describe()  #.reset_index()
+        #xdata.columns = ['sum_stats'] + data.columns
+        print(xdata)  #.columns)
+
+        sum_stats = xdata.index
+        values = xdata[col]
+
+        print(f'sum_stats: {sum_stats}\n\n\n')
+        print(f'values: {values}\n\n\n')
+
+        table = go.Figure(
+            [go.Table(
+                header=dict(values=['Summary Statistic', 'Value']),
+                cells=dict(values=[sum_stats, values])
+            )]
+        )
+        return table
