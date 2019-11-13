@@ -128,14 +128,14 @@ class CustomVisuals(object):
         feats = ranks_.shape[0]
         
         # zero-ing out one of the diagonals features
-        iu = np.triu_indices(feats, )
-        ranks_[iu] = 0
+        #iu = np.triu_indices(feats, )
+        #ranks_[iu] = 0
         
         fig = go.Figure(
             [go.Heatmap(
                 z = ranks_,
                 x = self.feature_names,
-                y = np.flip(self.feature_names),
+                y =self.feature_names,
                 **kwargs
             )]
         )
