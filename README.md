@@ -61,8 +61,8 @@ I love this visual for classification tasks. This shows you which features your 
 
 ## TODO:
 1. Build out more visuals for regression tasks.
-2. Abstract these visuals into python classes.
-3. Build Dash Web app.
+~~2. Abstract these visuals into python classes.~~
+~~3. Build Dash Web app.~~
 
 
 ## Credits
