@@ -13,3 +13,7 @@ shap
 eli5
 yellowbrick
 requests
+flask
+dash>=1.4.1
+dash-daq>=0.2.1
+

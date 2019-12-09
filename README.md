@@ -11,6 +11,10 @@
 
 <hr>
 
+## Demo
+
+[0.0.1 Demo](https://youtu.be/iZKhYOERW5A)
+
 ## Description
 This is currently a work in progress project aimed at solving the need for model interpretation, explanation, and degradation.
 I've noticed this to be a pain point in my professional work as well as many others. This project serves as a solution.
@@ -63,6 +67,8 @@ I love this visual for classification tasks. This shows you which features your 
 1. Build out more visuals for regression tasks.
 2. Abstract these visuals into python classes.
 3. Build Dash Web app.
+   1. Going to begin by using a MVP Flask app.
+   2. I may need to transition to a Django app for production.
 
 
 ## Credits

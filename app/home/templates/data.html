@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+{% load plotly_dash %}
+
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="au-card recent-report">
+                <div class="au-card-inner">
+                    <h3 class="title-2">Table</h3>
+                    {% plotly_app name="box_plot_data_table" ratio=1 %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
