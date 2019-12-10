@@ -11,30 +11,47 @@ import dash_table
 from .visuals.custom_viz import CustomVisuals
 from django_plotly_dash import DjangoDash
 
-print(os.getcwd())
+env = os.environ['env']
+print(f'Running in {env} mode')
 
-# Loading model attributes
-print('Loading model...')
-model = pickle.load(open('/code/models/model.pkl', 'rb'))
-feature_names = ['Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare', 'Embarked', 'Cabin_Class']
-classes = ['not_survived', 'survived']
+if os.environ['env'] == 'payoff':
 
-# Loading train_test data
-print('Loading data...')
+    X_train = np.load('/code/models/X_train_demo.npy')
+    X_test = np.load('/code/models/X_test_demo.npy')
+    y_train = np.load('/code/models/y_train_demo.npy')
+    y_test = np.load('/code/models/y_test_demo.npy')
 
-print(f'cwd: {os.getcwd()}')
+    feature_names = ['interactionid', 'interactiondatetime', 'days_between_interaction',
+                    'loannumber', 'loanpurposeid', 'loanamount', 'closingdt',
+                    'closingcoststoloanamount', 'appraisaltypeid',
+                    'appraisedvaluetoloanamount', 'piwflg', 'borrowerpoints',
+                    'cashouttoloanamount', 'fico', 'interestrate', 'ltv', 'folderdtid',
+                    'todaydtid', 'difffannie30yryield', 'difffannie15yryield',
+                    'difffreddie30yryield', 'diffginniemae30yryield', 'diffswap10yryield',
+                    'diffswap3yryield', 'diffdowjonesindex', 'diffoilprice',
+                    'difftreasury2yryield', 'difftreasury10yryield',
+                    'difftreasury30yryield'] 
+    target_col = 'PayoffFlag'
+    classes = ['not_payoff', 'payoff']
+    model = pickle.load(open('/code/models/model_demo.pkl', 'rb'))
 
+else:
 
-X_train = np.load('/code/models/X_train.npy')
-X_test = np.load('/code/models/X_test.npy')
-y_train = np.load('/code/models/y_train.npy')
-y_test = np.load('/code/models/y_test.npy')
+    X_train = np.load('/code/models/X_train.npy')
+    X_test = np.load('/code/models/X_test.npy')
+    y_train = np.load('/code/models/y_train.npy')
+    y_test = np.load('/code/models/y_test.npy')
+    feature_names = ['Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare', 'Embarked', 'Cabin_Class']
+    target_col = 'SurvivedFlag'
+    classes = ['not_survived', 'survived']
+    model = pickle.load(open('/code/models/model.pkl', 'rb'))
+    
 
 X = np.concatenate([X_train, X_test])
 y = np.concatenate([y_train, y_test])
 
 Xdf = pd.DataFrame(X, columns=feature_names)
-ydf = pd.DataFrame(y, columns=['survived'])
+ydf = pd.DataFrame(y, columns=[target_col])
 datadf = pd.concat([Xdf, ydf], axis=1)
 
 cv = CustomVisuals(model=model, feature_names=feature_names, classes=classes, training_data=X_train)

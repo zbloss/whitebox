@@ -175,3 +175,10 @@ fabric.properties
 
 # titanic dataset
 titanic_data/
+
+# Other data
+models/model_demo.pkl
+models/X_train_demo.npy
+models/X_test_demo.npy
+models/y_test_demo.npy
+models/y_train_demo.npy
