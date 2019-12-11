@@ -236,7 +236,7 @@ class CustomVisuals(object):
         return fig
     
 
-    def generate_roc_auc(self, X_train, y_train, X_test, y_test, **kwargs):
+    def generate_roc_auc(self, X_train, y_train, X_test, y_test, **kwargs): 
         """
         Given the training and testing sets, computes the ROC AUC metrics
         for the given model and returns a ROC AUC plotly figure.
