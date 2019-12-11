@@ -19,3 +19,6 @@ def explain(request):
 
 def data(request):
     return render(request, 'data.html')
+
+def explanation(request):
+    return render(request, 'explanation.html')
