@@ -199,13 +199,19 @@ def filter_data(selected_row_indices):
     [dash.dependencies.Input(data_table_dash_name, 'selected_rows')])
 def update_download_link(selected_row_indices):
     dff = filter_data(selected_row_indices)
+    cv.generate_instance_explain_plot(selected_row_indices)
+    cv.generate_lime_tabular_graph(selected_row_indices)
+    cv.generate_shap_decison_plot(selected_row_indices)
+    instance_explain_image_filename ='/../../static/graphs/shap_instance_explain_'+str(selected_row_indices)+'.png'
+    instance_explain_lime_filename = '/../../static/graphs/explain_'+str(selected_row_indices)+'.html'
+    instance_explain_shap_decision_plot = '/../../static/graphs/shap_decision_plot_' +str(selected_row_indices)+ '.png'
     return html.Div([
         html.Div([
             html.Div([
                 html.H3('Model Probability', className='title-2'),
                 dcc.Graph(
                     id = prob_dash_name,
-                    figure =  cv.generate_probability_chart(dff[feature_names].values[0]), 
+                    figure = cv.generate_probability_chart(dff[feature_names].values[0]),
                     className='embed-responsive'
                 ),
             ], className='col-sm-12 col-md-6'),
@@ -214,11 +220,26 @@ def update_download_link(selected_row_indices):
                 html.H3('Local Feature Importance', className='title-2'),
                 dcc.Graph(
                     id = 'feature_imp',
-                    figure = cv.local_feature_importance(data=dff[feature_names].values[0]), 
+                    figure = cv.local_feature_importance(data=dff[feature_names].values[0]),
                     className='embed-responsive'
                 )
-            ], className='col-sm-12 col-md-6')
-            
+            ], className='col-sm-12 col-md-6'),
+            html.Br(),
+            html.Div([
+                html.H3('Features  Contributing for model output', className='title-2'),
+                html.Img(src=instance_explain_image_filename),
+            ], className='col-sm-12 col-md-6'),
+            html.Br(),
+            html.Div([
+                html.H3('Interpret Model Output', className='title-2'),
+                html.Iframe(src=instance_explain_lime_filename, style={'border': 'none', 'width': '100%', 'height': 350},)
+            ], className='col-sm-12 col-md-6'),
+            html.Br(),
+            html.Div([
+                html.H3('Decision plot for model output', className='title-2'),
+                html.Img(src=instance_explain_shap_decision_plot),
+            ], className='col-sm-12 col-md-6'),
+
         ], className='row')
     ], className='container-fluid')
 
@@ -286,3 +307,33 @@ def update_active_cell(active_cell):
 
     column_values, point = None, None
     return fig
+
+
+# Shap Summary  Plots
+shap_summary_dash_name = 'shap_summary'
+shap_summary_app = DjangoDash(name=shap_summary_dash_name)
+summary_image_filename = '/../../static/graphs/shap_summary.png'
+summary_bar_image_filename = '/../../static/graphs/shap_summary_barplot.png'
+cv.generate_shap_summary_plot()
+cv.generate_shap_summary_bar_plot()
+#cv.generate_shap_force_plot()
+shap_summary_app.layout =   html.Div([
+                html.Img(src=summary_image_filename),
+                html.Img(src=summary_bar_image_filename)
+            ], className='col-sm-12')
+
+# Dependency  Plots
+
+shap_dependency_dash_name = 'shap_dependency'
+shap_dependency_app = DjangoDash(name=shap_dependency_dash_name)
+dependency_emb_image_filename = '/../../static/graphs/shap_dependency_plot_Embarked.png'
+dependency_fare_image_filename = '/../../static/graphs/shap_dependency_plot_Fare.png'
+dependency_Pclass_image_filename = '/../../static/graphs/shap_dependency_plot_Pclass.png'
+dependency_sex_image_filename = '/../../static/graphs/shap_dependency_plot_Sex.png'
+cv.generate_shap_dependency_plot()
+shap_dependency_app.layout =   html.Div([
+                html.Img(src=dependency_emb_image_filename),
+                html.Img(src=dependency_fare_image_filename),
+                html.Img(src=dependency_Pclass_image_filename),
+                html.Img(src=dependency_sex_image_filename)
+            ], className='col-sm-12 col-md-6')

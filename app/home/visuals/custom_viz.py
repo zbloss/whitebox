@@ -16,6 +16,8 @@ from sklearn.metrics import classification_report, confusion_matrix
 import lime
 import lime.lime_tabular
 from lime.lime_tabular import LimeTabularExplainer
+import shap
+import matplotlib.pyplot as plt
 
 
 class CustomVisuals(object):
@@ -30,6 +32,8 @@ class CustomVisuals(object):
                                               mode='classification',  
                                               feature_names=self.feature_names, 
                                               class_names=self.classes)
+
+        self.shapexplainer = shap.TreeExplainer(self.model)
         
 
 
@@ -510,3 +514,51 @@ class CustomVisuals(object):
             )]
         )
         return table
+
+    def generate_shap_force_plot(self):
+        shap.initjs()
+        shap_values = self.shapexplainer.shap_values(self.training_data)
+        return shap.force_plot(self.shapexplainer.expected_value,shap_values, self.training_data,show= False).savefig('shap_explain.png')
+
+    def generate_shap_summary_plot(self):
+        shap_values = self.shapexplainer.shap_values(self.training_data)
+        plt.clf()
+        summary_fig  = shap.summary_plot(shap_values, self.training_data, show=False,feature_names=self.feature_names)
+        #results_dir = os.path.join(BASE_DIR , os.getcwd(), '/app/home/static/graphs/')
+        #plt.savefig(results_dir+'shap_summary.png')
+        plt.savefig('shap_summary.png')
+        return summary_fig
+
+    def generate_shap_summary_bar_plot(self):
+        shap_values = self.shapexplainer.shap_values(self.training_data)
+        plt.clf()
+        summary_bar_fig = shap.summary_plot(shap_values, self.training_data, plot_type='bar',show=False, feature_names=self.feature_names )
+        # results_dir = os.path.join(os.getcwd(), '/app/home/static/graphs/')
+        # plt.savefig(results_dir+'shap_summary.png')
+        plt.savefig('shap_summary_barplot.png')
+        return summary_bar_fig
+
+    def generate_shap_dependency_plot(self):
+        shap_values = self.shapexplainer.shap_values(self.training_data)
+        plt.clf()
+        for ftr in range(len(self.feature_names)):
+            shap.dependence_plot(ftr, shap_values, self.training_data,feature_names=self.feature_names, show=False)
+            # results_dir = os.path.join(os.getcwd(), '/app/home/static/graphs/')
+            # plt.savefig(results_dir+'shap_summary.png')
+            plt.savefig('shap_dependency_plot_' + self.feature_names[ftr] + '.png')
+
+    def generate_lime_tabular_graph(self,selected_row_index):
+        exp = self.explainer.explain_instance(self.training_data[0], self.model.predict_proba, num_features=7)
+        exp.save_to_file('explain_'+str(selected_row_index)+'.html')
+
+    def generate_shap_decison_plot(self,selected_row_index):
+        shap_values = self.shapexplainer.shap_values(self.training_data)
+        expected_value = self.shapexplainer.expected_value
+        shap.decision_plot(expected_value, shap_values[selected_row_index], self.training_data[selected_row_index], feature_names=self.feature_names, show=False)
+        plt.savefig('shap_decision_plot_' +str(selected_row_index)+ '.png')
+
+
+    def generate_instance_explain_plot(self,selected_row_index):
+        plt.clf()
+        shap_values = self.shapexplainer.shap_values(self.training_data)
+        shap.force_plot(self.shapexplainer.expected_value, shap_values[selected_row_index,:],self.training_data[selected_row_index],feature_names=self.feature_names, figsize=(15, 3), show=False,matplotlib= True).savefig('shap_instance_explain_'+str(selected_row_index)+'.png')

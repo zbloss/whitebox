@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load plotly_dash %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="au-card recent-report">
+                <div class="au-card-inner">
+                    <h3 class="title-2"> Model Explainability for Titan Data Classification</h3>
+                    <p>SHAP (SHapley Additive exPlanations) is a unified approach to explain the output of any machine learning model.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="au-card-inner">
+                <div class="au-card recent-report">
+                        <div>
+                             <h3 class="title-2"> Summary Plots</h3>
+                             <p>SHAP summary plots give us a birds-eye view of feature importance and what is driving it.</p>
+                           {% plotly_app name="shap_summary" ratio=1 %}
+                         <h3 class="title-2">Dependence plots</h3>
+                            <p>This shows how the model depends on the given feature, and is like a richer extenstion of the classical parital dependence plots. Vertical dispersion of the data points represents interaction effects.</p>
+                        </div>
+                        {% plotly_app name="shap_dependency" ratio=1 %}
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
