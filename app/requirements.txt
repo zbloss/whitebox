@@ -1,6 +1,6 @@
 dash>=1.4.1
 dash-daq>=0.2.1
-django==2.2.6
+django==2.2.13
 django_plotly_dash
 dpd_static_support
 yellowbrick
